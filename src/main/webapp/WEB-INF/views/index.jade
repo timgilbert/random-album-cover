@@ -1,12 +1,16 @@
+- import com.github.timgilbert.randomcover.Cover
+-@ import val allCovers:Traversable[Cover]
+
 - attributes("title") = "Random Album Covers: Home"
 - attributes("headline") = "Random Album Covers"
 
-p Hrm
-
+!!! 5
 a(href="/new") Create a new cover
 
-h2 Current covers
+- if (!allCovers.isEmpty)
+  h2 Current covers
 
-ol
-  li 
-    a(href="/cover/test") test name
+  ol
+    - for (cover <- allCovers)
+      li 
+        a(href="/cover/test") test name

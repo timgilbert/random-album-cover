@@ -9,17 +9,29 @@ class CoverScalatraServlet extends ScalatraServlet with ScalateSupport {
 
   val covers = new InMemoryStore()
   val coverFactory = new TestCoverFactory()
-
+  
+  val views = "/WEB-INF/views/"
+  
+  // I'm not entirely sure why this incantation seems to be necessary, but at some point 
+  // everything suddenly started to render as text/plain and this was the only thing 
+  // that got it working again
+  before() {
+      contentType = "text/html"
+      pass()
+  }
+  
   get("/") {
-    contentType="text/html"
-    templateEngine.layout("/WEB-INF/views/index.jade")
+    val model = Map("allCovers" -> covers.list)
+    
+    templateEngine.layout(views + "index.jade", model)
   }
   
   get("/cover/:id") {
-    val cover = covers.get(params("id"))
-    
-    contentType="text/html"
-    templateEngine.layout("/WEB-INF/views/cover.jade")
+    covers.get(params("id")) match {
+      case Some(cover) => templateEngine.layout(views + "cover.jade", Map("cover" -> cover))
+      case None => templateEngine.layout(views + "notfound.jade")
+    }
+    //templateEngine.layout(views + "cover.jade", Map("cover" -> covers.get(params("id"))))
   }
   
   get("/new") {
@@ -27,14 +39,4 @@ class CoverScalatraServlet extends ScalatraServlet with ScalateSupport {
     covers.put(newCover)
     redirect("/cover/" + newCover.id)
   }
-  
-  /*
-  notFound {
-    // Try to render a ScalateTemplate if no route matched
-    findTemplate(requestPath) map { path =>
-      contentType = "text/html"
-      layoutTemplate(path)
-    } orElse serveStaticResource() getOrElse resourceNotFound() 
-  }
-  */
 }

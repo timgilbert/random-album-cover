@@ -1,6 +1,12 @@
+- import com.github.timgilbert.randomcover.Cover
+-@ import val cover:Cover
+
 - attributes("title") = "Random Album Covers: Cover View"
 - attributes("headline") = "Random Album Covers"
 
 a(href="/") Home
 
-h2 TODO
+h2 #{cover.artist}
+h3 #{cover.name}
+
+p #{cover.image}

@@ -1,14 +1,12 @@
 import org.scalatra._
 import java.net.URL
 import scalate.ScalateSupport
-import com.github.timgilbert.randomcover.Cover
-import com.github.timgilbert.randomcover.TestCoverFactory
-import com.github.timgilbert.randomcover.InMemoryStore
+import com.github.timgilbert.randomcover._
 
 class CoverScalatraServlet extends ScalatraServlet with ScalateSupport {
 
   val covers = new InMemoryStore()
-  val coverFactory = new TestCoverFactory()
+  val coverFactory = new RandomTestCoverFactory()
   
   val views = "/WEB-INF/views/"
   

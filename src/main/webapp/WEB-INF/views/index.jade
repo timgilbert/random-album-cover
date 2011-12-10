@@ -4,7 +4,6 @@
 - attributes("title") = "Random Album Covers: Home"
 - attributes("headline") = "Random Album Covers"
 
-!!! 5
 a(href="/new") Create a new cover
 
 - if (!allCovers.isEmpty)
@@ -13,4 +12,4 @@ a(href="/new") Create a new cover
   ol
     - for (cover <- allCovers)
       li 
-        a(href="/cover/test") test name
+        a(href="/cover/#{cover.id}") #{cover.name}
